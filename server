@@ -1,0 +1,29 @@
+const express = require("express");
+const multer = require("multer");
+const cors = require("cors");
+const path = require("path");
+
+const app = express();
+app.use(cors());
+app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+app.post("/submit-payment", upload.single("screenshot"), (req, res) => {
+  const { email, method } = req.body;
+  if (!email || !method || !req.file) {
+    return res.status(400).send("All fields required.");
+  }
+  res.send("Payment confirmation received.");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
