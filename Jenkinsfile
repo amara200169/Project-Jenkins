@@ -11,9 +11,10 @@ pipeline {
         stage('Deploy to Apache') {
             steps {
                 script {
-                    sh 'sudo cp -r my-online-store/* /var/www/html/'
+                    sh 'sudo cp -r * /var/www/html/'
                 }
             }
         }
     }
 }
+
