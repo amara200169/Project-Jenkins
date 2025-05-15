@@ -8,6 +8,14 @@ pipeline {
             }
         }
 
+        stage('Clean Apache Folder') {
+            steps {
+                script {
+                    sh 'sudo rm -rf /var/www/html/*'
+                }
+            }
+        }
+
         stage('Deploy to Apache') {
             steps {
                 script {
@@ -17,4 +25,3 @@ pipeline {
         }
     }
 }
-
